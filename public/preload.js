@@ -6,5 +6,9 @@ contextBridge.exposeInMainWorld('api', {
   // Send Methods
   testSend: (args) => ipcRenderer.send('test-send', args),
   // Receive Methods
-  testReceive: (callback) => ipcRenderer.on('test-receive', (event, data) => { callback(data) })
+  testReceive: (callback) => ipcRenderer.on('test-receive', (event, data) => { callback(data) }),
+
+  getCustomText: (args) => ipcRenderer.invoke('get-custom-text', args),
 });
+
+

@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow } = require('electron'); // electron
+const { app, BrowserWindow, ipcMain } = require('electron'); // electron
 const isDev = require('electron-is-dev'); // To check if electron is in development mode
 const path = require('path');
 
@@ -9,7 +9,8 @@ let mainWindow;
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 600, // width of window
-    height: 600, // height of window
+    height: 400, // height of window
+    resizable: false,
     webPreferences: {
       // The preload file where we will perform our app communication
       preload: isDev
@@ -81,4 +82,9 @@ process.on('uncaughtException', (error) => {
   if (process.platform !== 'darwin') {
     app.quit();
   }
+});
+
+
+ipcMain.handle('get-custom-text', (event, args) => {
+  return "Hello world" + typeof args;
 });

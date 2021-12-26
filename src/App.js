@@ -2,7 +2,7 @@ import UploadScreen from './components/UploadScreen';
 
 function App() {
   return (
-    <div>
+    <div className="h-screen flex flex-col justify-center">
       <UploadScreen />
     </div>
   );
