@@ -1,9 +1,11 @@
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { useStore } from '../../util/globalStore';
+import { useTranslation } from 'react-i18next';
 
 export default function Dropzone(props) {
   const { uploadedImages, setUploadedImages } = useStore();
+  const { t } = useTranslation();
 
   const onDrop = useCallback(acceptedFiles => {
     console.log(acceptedFiles.length);
@@ -19,12 +21,11 @@ export default function Dropzone(props) {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-  const DISPLAY_TEXT = "Drag 'n' drop some files here, or click to select files";
 
   return (
     <div {...getRootProps()} className={"px-5 py-10 border-2 border-dashed border-purple-400 rounded-md" + ' ' + props.className}>
       <input {...getInputProps()} />
-      <p className="text-center">{uploadedImages.length > 0 ? imgPreview : DISPLAY_TEXT}</p>
+      <p className="text-center">{uploadedImages.length > 0 ? imgPreview : t('p-drag-upload')}</p>
     </div>
   )
 }
