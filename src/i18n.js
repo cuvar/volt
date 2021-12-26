@@ -10,6 +10,7 @@ const resources = {
       "button-clear-upload": "Clear upload",
       "button-download-images": "Download images",
       "p-drag-upload": "Drag 'n' drop some files here, or click to select files",
+      "screen-label-loading": "Loading...",
     }
   },
   de: {
@@ -19,6 +20,7 @@ const resources = {
       "button-clear-upload": "Upload löschen",
       "button-download-images": "Bilder herunterladen",
       "p-drag-upload": "Ziehe Dateien hier hinein oder klicke, um welche auszuwählen",
+      "screen-label-loading": "Lädt...",
     }
   }
 };
