@@ -11,7 +11,8 @@ export default function Dropzone(props) {
     console.log(acceptedFiles.length);
     setUploadedImages(acceptedFiles);
 
-  }, [])
+  }, []);
+
   const imgPreview = (
     <div className='w-full flex flex-col items-center justify-center'>
       <svg xmlns='http://www.w3.org/2000/svg' className='h-24 w-24' fill='none' viewBox='0 0 24 24' stroke='currentColor'>
@@ -19,7 +20,8 @@ export default function Dropzone(props) {
       </svg>
     </div>
   );
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
 
   return (
