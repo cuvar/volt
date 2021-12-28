@@ -27,7 +27,11 @@ export default function Dropzone(props) {
   return (
     <div {...getRootProps()} className={"px-5 py-10 border-2 border-dashed border-purple-400 rounded-md" + ' ' + props.className}>
       <input {...getInputProps()} />
-      <p className="text-center">{uploadedImages.length > 0 ? imgPreview : t('p-drag-upload')}</p>
+      {uploadedImages.length > 0 ?
+        <div>
+          {imgPreview}
+        </div> :
+        <p className="text-center">{t('p-drag-upload')}</p>}
     </div>
   )
 }
