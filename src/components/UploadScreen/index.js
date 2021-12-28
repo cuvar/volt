@@ -13,8 +13,8 @@ export default function UploadScreen() {
     // e.preventDefault();
     setShowLoadingScreen(true);
     console.log(uploadedImages.length);
-    // const tttteeext = await window.api.getCustomText({ username: "hello" });
-    // console.log(tttteeext);
+    const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
+    // console.log(sortedImages.length);
 
     // debug usage
     setTimeout(() => {

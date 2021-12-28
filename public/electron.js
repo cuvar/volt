@@ -85,6 +85,12 @@ process.on('uncaughtException', (error) => {
 });
 
 
-ipcMain.handle('get-custom-text', (event, args) => {
-  return "Hello world" + typeof args;
+ipcMain.handle('sort-images-by-month', (event, args) => {
+  let sortedImagesMap = new Map();
+  // 1. get exif data
+  // 2. sort images per date
+  // 3. group images per month in map
+
+  // 4. return map
+  return sortedImagesMap;
 });
