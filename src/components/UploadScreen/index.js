@@ -9,17 +9,42 @@ export default function UploadScreen() {
   const { uploadedImages, sortedImagesAsZip, clearUploadedImages } = useStore();
   const { t } = useTranslation();
 
-  const sortImages = async (e) => {
+  async function sortImages(e) {
     // e.preventDefault();
     setShowLoadingScreen(true);
     console.log(uploadedImages.length);
-    const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
+
+
+    uploadedImages.sort((a, b) => {
+      return new Date(a.lastModifiedDate) - new Date(b.lastModifiedDate);
+    });
+
+    const mappedImages = uploadedImages.map((img) => {
+      const date = (img.lastModifiedDate.getMonth() + 1) + "-" + img.lastModifiedDate.getFullYear();
+      return { file: img, month: date };
+    });
+
+    const sortedByMonth = mappedImages.reduce((result, project) => {
+      const images = result[project.month] || [];
+      return {
+        ...result,
+        [project.month]: [...images, project]
+      }
+    }, [])
+
+    console.dir(sortedByMonth);
+
+    setShowLoadingScreen(false);
+
+    // TODO: what should happen after downloading? How are these files going to be sorted into an existing structure? Maybe there's already a folder called 2021. Should I create separate objects for the year containing an array of months?
+
+    // const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
     // console.log(sortedImages.length);
 
     // debug usage
-    setTimeout(() => {
-      setShowLoadingScreen(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setShowLoadingScreen(false);
+    // }, 3000);
   };
 
   function downloadImages() {
