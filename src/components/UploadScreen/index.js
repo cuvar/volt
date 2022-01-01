@@ -53,11 +53,11 @@ export default function UploadScreen() {
     // array of objects with {file, month-year}
     const mappedImages = imagesWithExifData.map((img) => {
       if (!img.date) {
-        return { file: img, month: t('folder-unsorted-images') };
+        return { path: img.image.path, month: t('folder-unsorted-images') };
       }
       const monthAsNumber = (img.date.getMonth() + 1) < 10 ? `0${img.date.getMonth() + 1}` : img.date.getMonth() + 1;
       const monthAndYear = monthAsNumber + "-" + img.date.getFullYear();
-      return { file: img.image, date: img.date, month: monthAndYear, year: img.date.getFullYear() + '' };
+      return { path: img.image.path, date: img.date, month: monthAndYear, year: img.date.getFullYear() + '' };
     });
 
 
@@ -103,7 +103,8 @@ export default function UploadScreen() {
     setShowLoadingScreen(false);
 
     // TODO: what should happen after downloading? How are these files going to be sorted into an existing structure? Maybe there's already a folder called 2021. Should I create separate objects for the year containing an array of months?
-    // const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
+    // ? see https://stackoverflow.com/a/64271623
+    await window.api.sortImagesByMonth({ sortedImages: sortedByYear });
     // console.log(sortedImages.length);
   };
 

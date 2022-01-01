@@ -2,6 +2,8 @@
 const { app, BrowserWindow, ipcMain } = require('electron'); // electron
 const isDev = require('electron-is-dev'); // To check if electron is in development mode
 const path = require('path');
+const fs = require('fs');
+const process = require('process');
 
 let mainWindow;
 
@@ -90,13 +92,78 @@ process.on('uncaughtException', (error) => {
 
 
 ipcMain.handle('sort-images-by-month', (event, args) => {
-  // let sortedImagesMap = new Map();
-  // console.log(args.images);
-  // 1. get exif data
-  // 2. sort images per date
-  // 3. group images per month in map
+  if (Object.entries(args.sortedImages).length === 0) {
+    throw new Error("No sorted images provided");
+  }
+  // DEBUG
 
-  // 4. return map
-  // return sortedImagesMap;
-  return "aaa";
+  const IMAGE_DIR = `${process.cwd()}/volt-images`
+  createAndChangeDir(IMAGE_DIR);
+
+  // write files as new directory to system
+  for (let prop in args.sortedImages) {
+    const yearRegex = new RegExp(/[0-9]{4}/, 'g');
+
+    createAndChangeDir(`${process.cwd()}/${prop}`);
+
+    // year obj
+    if (prop.match(yearRegex)) {
+      for (let month in args.sortedImages[prop]) {
+        createAndChangeDir(`${process.cwd()}/${month}`);
+
+        // loop over files in month array
+        for (let fileobj of args.sortedImages[prop][month]) {
+          console.log(fileobj);
+          const filename = fileobj.path.split(/[\/\\]/).pop();
+          console.log(`${process.cwd()}/${filename}`);
+          fs.copyFileSync(fileobj.path, `${process.cwd()}/${filename}`);
+        }
+
+        // DEBUG
+        // console.log(month);
+        // console.dir(args.sortedImages[prop][month]);
+
+        process.chdir(`..`);
+      }
+
+    } else {
+      // loop over files in unsorted array
+      for (let fileobj of args.sortedImages[prop]) {
+        const filename = fileobj.path.split(/[\/\\]/).pop();
+        console.log(`${process.cwd()}/${filename}`);
+        fs.copyFileSync(fileobj.path, `${process.cwd()}/${filename}`);
+      }
+    }
+    process.chdir(`..`);
+  }
+
+
+  // // make dir 
+  // const dir = "./custom";
+  // fs.mkdir(dir, (err) => {
+  //   if (err) {
+  //     throw err;
+  //   }
+  //   console.log("Directory is created.");
+  // });
+
+  // // change dir
+  // process.chdir(dir);
+
+
+  // // write file
+  // try {
+  //   fs.writeFileSync('myfile.txt', 'the text to write in the file', 'utf-8');
+  // }
+  // catch (e) {
+  //   console.log('Failed to save the file !');
+  // }
+
 });
+
+function createAndChangeDir(dir) {
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(`${dir}`);
+  }
+  process.chdir(`${dir}`);
+}
