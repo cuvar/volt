@@ -8,8 +8,12 @@ let mainWindow;
 // Initializing the Electron Window
 const createWindow = () => {
   mainWindow = new BrowserWindow({
-    width: 600, // width of window
-    height: 400, // height of window
+    // TODO: real size
+    // width: 600, // width of window
+    // height: 400, // height of window
+    width: 1000, // width of window
+    height: 600, // height of window
+
     resizable: false,
     webPreferences: {
       // The preload file where we will perform our app communication
@@ -86,11 +90,13 @@ process.on('uncaughtException', (error) => {
 
 
 ipcMain.handle('sort-images-by-month', (event, args) => {
-  let sortedImagesMap = new Map();
+  // let sortedImagesMap = new Map();
+  // console.log(args.images);
   // 1. get exif data
   // 2. sort images per date
   // 3. group images per month in map
 
   // 4. return map
-  return sortedImagesMap;
+  // return sortedImagesMap;
+  return "aaa";
 });

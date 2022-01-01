@@ -2,6 +2,7 @@ import Dropzone from '../Dropzone';
 import { useState } from 'react';
 import { useStore } from '../../util/globalStore';
 import { useTranslation } from 'react-i18next';
+import EXIF from 'exif-js';
 
 export default function UploadScreen() {
   const [showLoadingScreen, setShowLoadingScreen] = useState(false);
@@ -9,35 +10,74 @@ export default function UploadScreen() {
   const { uploadedImages, sortedImagesAsZip, clearUploadedImages } = useStore();
   const { t } = useTranslation();
 
+  async function getExifOfImages(images) {
+    return await images.map(async (img) => {
+      const imgArrayBuffer = await img.arrayBuffer();
+      const exifData = EXIF.readFromBinaryFile(imgArrayBuffer);
+      // return exifData.DateTimeOriginal;
+      return exifData;
+    });
+  }
+
   async function sortImages(e) {
     // e.preventDefault();
     setShowLoadingScreen(true);
     console.log(uploadedImages.length);
+    console.log(uploadedImages);
 
+    // TODO: get real exif data
+    const exifData = await getExifOfImages(uploadedImages);
+    console.log(exifData);
+    return;
 
     uploadedImages.sort((a, b) => {
       return new Date(a.lastModifiedDate) - new Date(b.lastModifiedDate);
     });
 
+    // array of objects with {file, month-year}
     const mappedImages = uploadedImages.map((img) => {
+      if (typeof img.lastModifiedDate === 'undefined') {
+        return { file: img, month: t('folder-unsorted-images') };
+
+      }
       const date = (img.lastModifiedDate.getMonth() + 1) + "-" + img.lastModifiedDate.getFullYear();
       return { file: img, month: date };
     });
 
-    const sortedByMonth = mappedImages.reduce((result, project) => {
-      const images = result[project.month] || [];
+    // sort by month
+    const sortedByMonth = mappedImages.reduce((result, image) => {
+      const alreadySortedImagesForSpecificMonth = result[image.month] || [];
+
       return {
         ...result,
-        [project.month]: [...images, project]
+        [image.month]: [...alreadySortedImagesForSpecificMonth, image]
       }
-    }, [])
-
+    }, []);
     console.dir(sortedByMonth);
+    // const sortedByYear = {};
+
+
+    // sort by year
+    // for (let prop in sortedByMonth) {
+    //   const monthRegex = new RegExp(/[0-9]?[0-9]-[0-9]{4}/, 'g');
+    //   if (prop.match(monthRegex)) {
+    //     console.log(prop);
+    //   }
+    // }
+
+    // const sortedByYear = sortedByMonth.reduce((result, month) => {
+    //   const alreadySortedImagesForSpecificMonth = result[image.month] || [];
+
+    //   return {
+    //     ...result,
+    //     [image.month]: [...alreadySortedImagesForSpecificMonth, image]
+    //   }
+    // }, []);
 
     setShowLoadingScreen(false);
 
     // TODO: what should happen after downloading? How are these files going to be sorted into an existing structure? Maybe there's already a folder called 2021. Should I create separate objects for the year containing an array of months?
-
+    // TODO2: What happens if no date is given in the file -> "unsorted"
     // const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
     // console.log(sortedImages.length);
 
