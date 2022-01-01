@@ -55,8 +55,9 @@ export default function UploadScreen() {
       if (!img.date) {
         return { file: img, month: t('folder-unsorted-images') };
       }
-      const month = (img.date.getMonth() + 1) + "-" + img.date.getFullYear();
-      return { file: img.image, date: img.date, month: month, year: img.date.getFullYear() + '' };
+      const monthAsNumber = (img.date.getMonth() + 1) < 10 ? `0${img.date.getMonth() + 1}` : img.date.getMonth() + 1;
+      const monthAndYear = monthAsNumber + "-" + img.date.getFullYear();
+      return { file: img.image, date: img.date, month: monthAndYear, year: img.date.getFullYear() + '' };
     });
 
 
