@@ -8,7 +8,8 @@ export default function Dropzone(props) {
   const { t } = useTranslation();
 
   const onDrop = useCallback(acceptedFiles => {
-    console.log(acceptedFiles.length);
+    // DEBUG
+    // console.log(acceptedFiles.length);
     setUploadedImages(acceptedFiles);
 
   }, []);
