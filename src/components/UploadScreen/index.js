@@ -11,28 +11,46 @@ export default function UploadScreen() {
   const { t } = useTranslation();
 
   async function getExifOfImages(images) {
-    return await images.map(async (img) => {
+    const dates = [];
+    for (const img of images) {
       const imgArrayBuffer = await img.arrayBuffer();
       const exifData = EXIF.readFromBinaryFile(imgArrayBuffer);
-      // return exifData.DateTimeOriginal;
-      return exifData;
-    });
+      // Todo: workaround for heic files
+      dates.push({ image: img, date: formateExifDate(exifData.DateTimeOriginal) ?? false });
+    }
+
+    return dates;
+  }
+  function formateExifDate(exifDate) {
+    if (typeof exifDate === 'undefined') {
+      return exifDate;
+    }
+
+    const splittedDate = exifDate.split(/[: ]/);
+    const date = new Date(splittedDate[0], splittedDate[1], splittedDate[2], splittedDate[3], splittedDate[4], splittedDate[5])
+    return date;
   }
 
   async function sortImages(e) {
     // e.preventDefault();
     setShowLoadingScreen(true);
-    console.log(uploadedImages.length);
-    console.log(uploadedImages);
 
-    // TODO: get real exif data
+    // DEBUG;
+    console.log(uploadedImages.length);
+
     const exifData = await getExifOfImages(uploadedImages);
+    exifData.sort((a, b) => {
+      if (!a.date) {
+        return -1;
+      }
+      if (!b.date) {
+        return 1;
+      }
+      return a.date - b.date;
+    });
     console.log(exifData);
     return;
 
-    uploadedImages.sort((a, b) => {
-      return new Date(a.lastModifiedDate) - new Date(b.lastModifiedDate);
-    });
 
     // array of objects with {file, month-year}
     const mappedImages = uploadedImages.map((img) => {
