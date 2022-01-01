@@ -38,8 +38,8 @@ export default function UploadScreen() {
     // DEBUG;
     console.log(uploadedImages.length);
 
-    const exifData = await getExifOfImages(uploadedImages);
-    exifData.sort((a, b) => {
+    const imagesWithExifData = await getExifOfImages(uploadedImages);
+    imagesWithExifData.sort((a, b) => {
       if (!a.date) {
         return -1;
       }
@@ -48,7 +48,7 @@ export default function UploadScreen() {
       }
       return a.date - b.date;
     });
-    console.log(exifData);
+    console.log(imagesWithExifData);
     return;
 
 
