@@ -48,19 +48,17 @@ export default function UploadScreen() {
       }
       return a.date - b.date;
     });
-    console.log(imagesWithExifData);
-    return;
 
 
     // array of objects with {file, month-year}
-    const mappedImages = uploadedImages.map((img) => {
-      if (typeof img.lastModifiedDate === 'undefined') {
+    const mappedImages = imagesWithExifData.map((img) => {
+      if (!img.date) {
         return { file: img, month: t('folder-unsorted-images') };
-
       }
-      const date = (img.lastModifiedDate.getMonth() + 1) + "-" + img.lastModifiedDate.getFullYear();
-      return { file: img, month: date };
+      const month = (img.date.getMonth() + 1) + "-" + img.date.getFullYear();
+      return { file: img.image, date: img.date, month: month };
     });
+
 
     // sort by month
     const sortedByMonth = mappedImages.reduce((result, image) => {
@@ -72,8 +70,8 @@ export default function UploadScreen() {
       }
     }, []);
     console.dir(sortedByMonth);
-    // const sortedByYear = {};
 
+    // const sortedByYear = {};
 
     // sort by year
     // for (let prop in sortedByMonth) {
