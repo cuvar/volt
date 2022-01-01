@@ -1,0 +1,21 @@
+{
+  "year": {
+    "(M)?M-YYYY": [
+      {
+        "file": "File",
+        "date": "Date",
+        "month": "String",
+        "year": "String"
+      }
+    ]
+  },
+  "unsorted": [
+    {
+      "file": {
+        "image": "File",
+        "date": false
+      },
+      "month": "unsorted"
+    }
+  ]
+}

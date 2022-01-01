@@ -56,7 +56,7 @@ export default function UploadScreen() {
         return { file: img, month: t('folder-unsorted-images') };
       }
       const month = (img.date.getMonth() + 1) + "-" + img.date.getFullYear();
-      return { file: img.image, date: img.date, month: month };
+      return { file: img.image, date: img.date, month: month, year: img.date.getFullYear() + '' };
     });
 
 
@@ -69,38 +69,41 @@ export default function UploadScreen() {
         [image.month]: [...alreadySortedImagesForSpecificMonth, image]
       }
     }, []);
-    console.dir(sortedByMonth);
 
-    // const sortedByYear = {};
+    // DEBUG
+    // console.dir("sortedByMonth");
+    // console.dir(sortedByMonth);
 
+    const sortedByYear = {};
     // sort by year
-    // for (let prop in sortedByMonth) {
-    //   const monthRegex = new RegExp(/[0-9]?[0-9]-[0-9]{4}/, 'g');
-    //   if (prop.match(monthRegex)) {
-    //     console.log(prop);
-    //   }
-    // }
+    for (let prop in sortedByMonth) {
+      const monthRegex = new RegExp(/[0-9]?[0-9]-[0-9]{4}/, 'g');
+      // get only year props
+      if (prop.match(monthRegex)) {
 
-    // const sortedByYear = sortedByMonth.reduce((result, month) => {
-    //   const alreadySortedImagesForSpecificMonth = result[image.month] || [];
+        // const index = prop === t('folder-unsorted-images') ? t('folder-unsorted-images') : prop.split('-')[1];
+        const year = prop.split('-')[1];
 
-    //   return {
-    //     ...result,
-    //     [image.month]: [...alreadySortedImagesForSpecificMonth, image]
-    //   }
-    // }, []);
+        // if entry doesn't exists for specific year
+        if (!sortedByYear[year]) {
+          sortedByYear[year] = {};
+        }
+
+        sortedByYear[year][prop] = sortedByMonth[prop];
+
+      } else if (prop === t('folder-unsorted-images')) {
+        sortedByYear[prop] = {};
+        sortedByYear[prop] = sortedByMonth[prop];
+      }
+    }
+    console.dir("sortedByYear");
+    console.dir(sortedByYear);
 
     setShowLoadingScreen(false);
 
     // TODO: what should happen after downloading? How are these files going to be sorted into an existing structure? Maybe there's already a folder called 2021. Should I create separate objects for the year containing an array of months?
-    // TODO2: What happens if no date is given in the file -> "unsorted"
     // const sortedImages = await window.api.sortImagesByMonth({ images: uploadedImages });
     // console.log(sortedImages.length);
-
-    // debug usage
-    // setTimeout(() => {
-    //   setShowLoadingScreen(false);
-    // }, 3000);
   };
 
   function downloadImages() {
