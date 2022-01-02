@@ -119,7 +119,7 @@ export default function UploadScreen() {
       <div className="w-screen h-screen absolute top-0 right-0 bg-gray-300 opacity-80"></div>
       <div className="w-screen h-screen absolute top-0 right-0 opacity-100">
         <div className="flex flex-col justify-center items-center h-full">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-14 w-14 animate-spin-reverse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
           <p className="font-bold text-lg mt-2">{t('screen-label-loading')}</p>
