@@ -1,4 +1,5 @@
 import Dropzone from '../Dropzone';
+import ProgressBar from '../ProgressBar';
 import { useState } from 'react';
 import { useStore } from '../../util/globalStore';
 import { useTranslation } from 'react-i18next';
@@ -123,7 +124,6 @@ export default function UploadScreen() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
           </svg>
           <p className="font-bold text-lg mt-2">{t('screen-label-loading')}</p>
-
         </div>
       </div>
     </div>
@@ -134,6 +134,7 @@ export default function UploadScreen() {
       <Dropzone className="mb-2" />
       {uploadedImages.length > 0 && <p className="text-md mb-4">{`${uploadedImages.length} ${t('label-uploaded-images-amount')}`}</p>}
 
+      {/* <ProgressBar progress={50} className="" /> */}
       {sortedImagesAsZip == null ?
         <div className="flex justify-between">
           <button onClick={() => sortImages()} type="submit" className="py-2 px-4 border-2 border-purple-500 text-purple-500 font-bold rounded-md hover:bg-purple-100 active:bg-purple-500 active:text-white">{t('button-sort-images')}</button>
