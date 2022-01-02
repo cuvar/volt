@@ -100,12 +100,14 @@ export default function UploadScreen() {
     console.dir("sortedByYear");
     console.dir(sortedByYear);
 
-    setShowLoadingScreen(false);
-
     // TODO: what should happen after downloading? How are these files going to be sorted into an existing structure? Maybe there's already a folder called 2021. Should I create separate objects for the year containing an array of months?
     // ? see https://stackoverflow.com/a/64271623
     await window.api.sortImagesByMonth({ sortedImages: sortedByYear });
     // console.log(sortedImages.length);
+
+
+    setShowLoadingScreen(false);
+    clearUploadedImages();
   };
 
   function downloadImages() {
@@ -129,7 +131,8 @@ export default function UploadScreen() {
   return (
     <div className="mx-10 my-5">
       <h2 className="font-bold text-purple-500 text-xl mb-2">{t('upload-title')}</h2>
-      <Dropzone className="mb-4" />
+      <Dropzone className="mb-2" />
+      {uploadedImages.length > 0 && <p className="text-md mb-4">{`${uploadedImages.length} ${t('label-uploaded-images-amount')}`}</p>}
 
       {sortedImagesAsZip == null ?
         <div className="flex justify-between">

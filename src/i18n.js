@@ -12,6 +12,7 @@ const resources = {
       "p-drag-upload": "Drag 'n' drop some files here, or click to select files",
       "screen-label-loading": "Loading...",
       "folder-unsorted-images": "unsorted",
+      "label-uploaded-images-amount": "uploaded images",
     }
   },
   de: {
@@ -23,6 +24,8 @@ const resources = {
       "p-drag-upload": "Ziehe Dateien hier hinein oder klicke, um welche auszuwählen",
       "screen-label-loading": "Lädt...",
       "folder-unsorted-images": "unsortiert",
+      "label-uploaded-images-amount": "hochgeladene Bilder",
+
     }
   }
 };
