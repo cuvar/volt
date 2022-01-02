@@ -1,0 +1,18 @@
+{
+  "year": {
+    "(M)?M-YYYY": [
+      {
+        "path": "File",
+        "date": "Date",
+        "month": "String",
+        "year": "String"
+      }
+    ]
+  },
+  "unsorted": [
+    {
+      "path": "String",
+      "month": "unsorted"
+    }
+  ]
+}
