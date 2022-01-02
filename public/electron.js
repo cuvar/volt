@@ -11,11 +11,8 @@ let mainWindow;
 const createWindow = () => {
   mainWindow = new BrowserWindow({
     // TODO: real size
-    // width: 600, // width of window
-    // height: 400, // height of window
-    width: 1000, // width of window
-    height: 600, // height of window
-
+    width: 700, // width of window
+    height: 500, // height of window
     resizable: false,
     webPreferences: {
       // The preload file where we will perform our app communication
@@ -117,6 +114,9 @@ ipcMain.handle('sort-images-by-month', (event, args) => {
           const filename = fileobj.path.split(/[\/\\]/).pop();
           console.log(`${process.cwd()}/${filename}`);
           fs.copyFileSync(fileobj.path, `${process.cwd()}/${filename}`);
+
+          // const copyPath = path.join(fileobj.path, '..', 'volt-images', filename);
+          // fs.copyFileSync(fileobj.path, copyPath);
         }
 
         // DEBUG
@@ -132,10 +132,15 @@ ipcMain.handle('sort-images-by-month', (event, args) => {
         const filename = fileobj.path.split(/[\/\\]/).pop();
         console.log(`${process.cwd()}/${filename}`);
         fs.copyFileSync(fileobj.path, `${process.cwd()}/${filename}`);
+
+        // const copyPath = path.join(fileobj.path, '..', 'volt-images', filename);
+        // fs.copyFileSync(fileobj.path, copyPath);
       }
     }
     process.chdir(`..`);
   }
+  process.chdir(`..`);
+  console.log("finished");
 
 
   // // make dir 
@@ -158,7 +163,6 @@ ipcMain.handle('sort-images-by-month', (event, args) => {
   // catch (e) {
   //   console.log('Failed to save the file !');
   // }
-
 });
 
 function createAndChangeDir(dir) {
